@@ -11,10 +11,12 @@ let playingDeck = ['fa-diamond', 'fa-diamond',
 
 const cards = document.querySelectorAll('.card');
 const playingMat = document.querySelector('.deck');
+let openCards = [];
 
 playingMat.addEventListener('click', function(cardEl) {
   if (cardEl.target.classList == 'card') {
-    console.log('clock');
+    if (!cardEl.target.classList.contains('open', 'show', 'match'))
+        cardEl.target.classList.add('open', 'show');
   }
 });
 
