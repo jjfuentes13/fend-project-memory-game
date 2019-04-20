@@ -14,9 +14,12 @@ const playingMat = document.querySelector('.deck');
 let openCards = [];
 
 playingMat.addEventListener('click', function(cardEl) {
-  if (cardEl.target.classList == 'card') {
+  if (cardEl.target.classList == ('card') && openCards.length < 2) {
+    flipCardArray(cardEl);
     flipCard(cardEl);
-    console.log('clock');
+      if (openCards.length == 2)
+        console.log(openCards);
+        // match();
   }
 });
 
@@ -25,6 +28,18 @@ function flipCard(cardEl) {
       cardEl.target.classList.add('open', 'show');
 }
 
+function flipCardArray(cardEl) {
+  openCards.push(cardEl);
+}
+
+function match(cardEl) {
+    if (openCards[0].cardEl.target.className ==
+        openCards[1].cardEl.target.className) {
+        console.log(openCards);
+    } else {
+        console.log('not a match');
+    }
+  }
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -39,3 +54,6 @@ function shuffle(array) {
 
     return array;
 }
+
+
+  // console.log('this is a click');
