@@ -15,12 +15,15 @@ let openCards = [];
 
 playingMat.addEventListener('click', function(cardEl) {
   if (cardEl.target.classList == 'card') {
-    if (!cardEl.target.classList.contains('open', 'show', 'match'))
-        cardEl.target.classList.add('open', 'show');
+    flipCard(cardEl);
+    console.log('clock');
   }
 });
 
-
+function flipCard(cardEl) {
+  if (!cardEl.target.classList.contains('open', 'show', 'match'))
+      cardEl.target.classList.add('open', 'show');
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
