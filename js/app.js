@@ -14,19 +14,22 @@ const playingMat = document.querySelector('.deck');
 let openCards = [];
 
 playingMat.addEventListener('click', function(cardEl) {
+<<<<<<< HEAD
   if (cardEl.target.classList == ('card') && openCards.length < 2) {
     flipCardArray(cardEl);
     flipCard(cardEl);
       if (openCards.length == 2)
         console.log(openCards);
         // match();
+=======
+  if (cardEl.target.classList == 'card') {
+    if (!cardEl.target.classList.contains('open', 'show', 'match'))
+        cardEl.target.classList.add('open', 'show');
+>>>>>>> parent of 238e54d... flipping cards function
   }
 });
 
-function flipCard(cardEl) {
-  if (!cardEl.target.classList.contains('open', 'show', 'match'))
-      cardEl.target.classList.add('open', 'show');
-}
+
 
 function flipCardArray(cardEl) {
   openCards.push(cardEl);
