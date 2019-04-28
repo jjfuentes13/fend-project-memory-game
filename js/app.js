@@ -12,37 +12,55 @@ let playingDeck = ['fa-diamond', 'fa-diamond',
 const cards = document.querySelectorAll('.card');
 const playingMat = document.querySelector('.deck');
 let openCards = [];
+let moves = 0;
 
-playingMat.addEventListener('click', function(cardEl) {
-<<<<<<< HEAD
-  if (cardEl.target.classList == ('card') && openCards.length < 2) {
-    flipCardArray(cardEl);
-    flipCard(cardEl);
-      if (openCards.length == 2)
-        console.log(openCards);
-        // match();
-=======
-  if (cardEl.target.classList == 'card') {
-    if (!cardEl.target.classList.contains('open', 'show', 'match'))
-        cardEl.target.classList.add('open', 'show');
->>>>>>> parent of 238e54d... flipping cards function
-  }
+playingMat.addEventListener('click', function(e) {
+  const clickTarget = event.target;
+  if (clickTarget.classList == ('card')) && openCards.length < 2) {
+    flipCard(clickTarget);
+    flipCardArray(clickTarget);
+    if (openCards.length === 2) {
+      match();
+      moveCounter();
+   }
+ }
 });
 
 
+function flipCard(clickTarget) {
+  if (!clickTarget.classList.contains('open', 'show', 'match'))
+      clickTarget.classList.add('open', 'show');
+}
 
-function flipCardArray(cardEl) {
-  openCards.push(cardEl);
+function flipCardArray(clickTarget) {
+  openCards.push(clickTarget);
 }
 
 function match(cardEl) {
-    if (openCards[0].cardEl.target.className ==
-        openCards[1].cardEl.target.className) {
-        console.log(openCards);
-    } else {
-        console.log('not a match');
-    }
+  if (openCards[0].firstElementChild.class ===
+      opencards[1].firstElementChild.class)
+      {
+        openCards[0].classList.add('match');
+        openCards[1].classList.add('match');
+        openCards = [];
+      }
+  else {
+    setTimeout(function() {
+        openCards[0].classList.remove('open', 'show');
+        openCards[1].classList.remove('open', 'show');
+        openCards = [];
+      }, 1000);
   }
+};
+
+function moveCounter() {
+  moves++;
+  const movesText = document.querySelector('.moves');
+  movesText.innerHTML = moves;
+
+}
+
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
