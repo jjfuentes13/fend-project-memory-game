@@ -8,20 +8,23 @@ let playingDeck = ['fa-diamond', 'fa-diamond',
                     'fa-cube', 'fa-cube',
                     'fa-bolt', 'fa-bolt',
                     ];
-
 const cards = document.querySelectorAll('.card');
 const playingMat = document.querySelector('.deck');
+
 let openCards = [];
 let moves = 0;
 
+
 playingMat.addEventListener('click', function(e) {
   const clickTarget = event.target;
-  if (clickTarget.classList == ('card')) && openCards.length < 2) {
+  if (clickTarget.classList == ('card') && openCards.length < 2) {
     flipCard(clickTarget);
     flipCardArray(clickTarget);
     if (openCards.length === 2) {
       match();
       moveCounter();
+      checkScore();
+
    }
  }
 });
@@ -36,9 +39,20 @@ function flipCardArray(clickTarget) {
   openCards.push(clickTarget);
 }
 
-function match(cardEl) {
-  if (openCards[0].firstElementChild.class ===
-      opencards[1].firstElementChild.class)
+function shuffleDeck() {
+  const cardsToSchuffle = Array.from(document.querySelectorAll('.deck li'));
+  const shuffleCards = shuffle(cardsToSchuffle);
+  for (card of shuffleCards) {
+    playingMat.appendChild(card);
+  }
+}
+
+shuffleDeck()
+
+
+function match() {
+  if (openCards[0].firstElementChild.className ===
+      openCards[1].firstElementChild.className)
       {
         openCards[0].classList.add('match');
         openCards[1].classList.add('match');
@@ -57,8 +71,24 @@ function moveCounter() {
   moves++;
   const movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
-
 }
+
+function checkScore() {
+  if (moves == 9 || moves == 17) {
+    hideStar();
+  }
+}
+
+function hideStar() {
+  const scoreStars = document.querySelectorAll('.stars li');
+  for (star of scoreStars) {
+    if (star.style.display !== 'none') {
+        star.style.display = 'none';
+        break;
+    }
+  }
+}
+
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -75,6 +105,3 @@ function shuffle(array) {
 
     return array;
 }
-
-
-  // console.log('this is a click');
