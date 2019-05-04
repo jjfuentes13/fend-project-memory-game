@@ -10,14 +10,15 @@ let playingDeck = ['fa-diamond', 'fa-diamond',
                     ];
 const cards = document.querySelectorAll('.card');
 const playingMat = document.querySelector('.deck');
-
 let openCards = [];
 let moves = 0;
+
 
 
 playingMat.addEventListener('click', function(e) {
   const clickTarget = event.target;
   if (clickTarget.classList == ('card') && openCards.length < 2) {
+    startClock();
     flipCard(clickTarget);
     flipCardArray(clickTarget);
     if (openCards.length === 2) {
@@ -74,7 +75,7 @@ function moveCounter() {
 }
 
 function checkScore() {
-  if (moves == 9 || moves == 17) {
+  if (moves == 12 || moves == 20) {
     hideStar();
   }
 }
@@ -89,7 +90,28 @@ function hideStar() {
   }
 }
 
+let time = 0;
+let clockID;
 
+function startClock() {
+  clockID = setInterval(() =>{
+  time++
+  const clock = document.querySelector('.clock');
+  let clockMinutes = Math.floor(time/60);
+  let clockSeconds = time % 60;
+  if (clockSeconds < 10) {
+    clock.innerHtml = `${clockMinutes}:0${clockSeconds}`;
+  }else {
+    clock.innerHTML = `${clockMinutes}:${clockSeconds}`;
+  }
+}, 1000);
+}
+
+// startClock();
+
+function stopClock() {
+  clearInterval(clockID);
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
