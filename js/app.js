@@ -18,7 +18,7 @@ let moves = 0;
 playingMat.addEventListener('click', function(e) {
   const clickTarget = event.target;
   if (clickTarget.classList == ('card') && openCards.length < 2) {
-    startClock();
+    // startClock();
     flipCard(clickTarget);
     flipCardArray(clickTarget);
     if (openCards.length === 2) {
@@ -94,7 +94,7 @@ let time = 0;
 let clockID;
 
 function startClock() {
-  clockID = setInterval(() =>{
+  clockID = setInterval(() => {
   time++
   const clock = document.querySelector('.clock');
   let clockMinutes = Math.floor(time/60);
@@ -112,6 +112,21 @@ function startClock() {
 function stopClock() {
   clearInterval(clockID);
 }
+
+function modalStats() {
+  const timeStat = document.querySelector('.modal-time');
+  const clockTime = document.querySelector('.clock').innerHTML;
+  const moveStat = document.querySelector('.modal-moves');
+  // const starStat = document.querySelector('.modal-stars');
+  // const starScore = document.querySelector('.stars li').innerHTML;
+
+
+  timeStat.innerHTML = `Time = ${clockTime}`;
+  moveStat.innerHTML = `Moves = ${moves}`;
+  // starStat.innerHTML = `Stars = ${starScore}`;
+}
+
+modalStats();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
