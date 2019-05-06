@@ -108,6 +108,9 @@ h1 {
     cursor: pointer;
 }
 
+.hide {
+    display: none;
+}
 .modal-background {
   position: absolute;
   top: 0;

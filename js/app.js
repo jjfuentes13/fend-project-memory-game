@@ -80,8 +80,9 @@ function checkScore() {
   }
 }
 
+const scoreStars = document.querySelectorAll('.stars li');
+
 function hideStar() {
-  const scoreStars = document.querySelectorAll('.stars li');
   for (star of scoreStars) {
     if (star.style.display !== 'none') {
         star.style.display = 'none';
@@ -113,20 +114,44 @@ function stopClock() {
   clearInterval(clockID);
 }
 
+function toggleModal() {
+  const modal = document.querySelector('.modal-background');
+  modal.classList.toggle('hide');
+}
+
 function modalStats() {
   const timeStat = document.querySelector('.modal-time');
   const clockTime = document.querySelector('.clock').innerHTML;
   const moveStat = document.querySelector('.modal-moves');
-  // const starStat = document.querySelector('.modal-stars');
-  // const starScore = document.querySelector('.stars li').innerHTML;
-
+  const starModal = document.querySelector('.modal-stars');
+  const starStat = getStarScore();
 
   timeStat.innerHTML = `Time = ${clockTime}`;
   moveStat.innerHTML = `Moves = ${moves}`;
-  // starStat.innerHTML = `Stars = ${starScore}`;
+  starModal.innerHTML = `Stars = ${starStat}`;
+  console.log(starStat);
 }
 
 modalStats();
+
+function getStarScore() {
+  stars = 0;
+  for (star of scoreStars) {
+    if (star.style.display !=='none') {
+      stars++;
+    }
+  }
+  console.log(stars);
+  return stars;
+};
+
+document.querySelector('.modal-cancel').addEventListener('click', () => {
+  toggleModal();
+});
+
+document.querySelector('.modal-replay').addEventListener('click', () => {
+  // replay function
+});
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
