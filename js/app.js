@@ -12,7 +12,7 @@ const cards = document.querySelectorAll('.card');
 const playingMat = document.querySelector('.deck');
 let openCards = [];
 let moves = 0;
-
+let matchCards = 0;
 
 
 playingMat.addEventListener('click', function(e) {
@@ -25,10 +25,20 @@ playingMat.addEventListener('click', function(e) {
       match();
       moveCounter();
       checkScore();
+      if (matchCards == 8) {
+        endGame();
+      }
 
    }
  }
 });
+
+function endGame() {
+  stopClock();
+  modalStats();
+  toggleModal();
+}
+
 
 
 function flipCard(clickTarget) {
@@ -64,6 +74,7 @@ function match() {
         openCards[0].classList.remove('open', 'show');
         openCards[1].classList.remove('open', 'show');
         openCards = [];
+        matchCards++;
       }, 1000);
   }
 };
@@ -149,10 +160,44 @@ document.querySelector('.modal-cancel').addEventListener('click', () => {
   toggleModal();
 });
 
-document.querySelector('.modal-replay').addEventListener('click', () => {
-  // replay function
-});
+document.querySelector('.modal-replay').addEventListener('click', replay);
+document.querySelector('.restart').addEventListener('click', reset);
 
+function replay() {
+  reset();
+  toggleModal();
+}
+
+function reset() {
+  resetClock();
+  resetMoves();
+  resetStars();
+  shuffleDeck();
+  resetCards();
+}
+function resetClock() {
+  stopClock();
+  clockOff = true;
+  time = 0;
+}
+
+function resetMoves() {
+  moves = 0;
+  document.querySelector('.moves').innerHTML = moves;
+}
+
+function resetStars() {
+  stars = 0;
+  for (star of scoreStars) {
+    star.style.display = 'inline';
+  }
+}
+
+function resetCards() {
+  for (card of cards) {
+    card.className = 'card';  
+  }
+}
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
