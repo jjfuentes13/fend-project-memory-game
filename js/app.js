@@ -13,25 +13,33 @@ const playingMat = document.querySelector('.deck');
 let openCards = [];
 let moves = 0;
 let matchCards = 0;
+let clockOff = true;
+
+playingMat.addEventListener('click', function(e) {
+  const clickTarget = event.target;
+  if (clickTarget.classList == ('card') && (clockOff === true)) {
+    startClock();
+    clockOff = false;
+  }
+});
 
 // main event listener to play game
 playingMat.addEventListener('click', function(e) {
   const clickTarget = event.target;
-  if (clickTarget.classList == ('card') && openCards.length < 2) {
-    // startClock();
-    flipCard(clickTarget);
-    flipCardArray(clickTarget);
-    if (openCards.length === 2) {
-      match();
-      moveCounter();
-      checkScore();
-      if (matchCards === 8) {
-        endGame();
+    if (clickTarget.classList == ('card') && openCards.length < 2) {
+      flipCard(clickTarget);
+      flipCardArray(clickTarget);
+      if (openCards.length === 2) {
+        match();
+        moveCounter();
+        checkScore();
+        if (matchCards === 8) {
+          endGame();
       }
-
    }
- }
+}
 });
+
 
 //function to end game and display modal score box
 function endGame() {
@@ -70,7 +78,7 @@ function shuffleDeck() {
   }
 }
 
-shuffleDeck()
+shuffleDeck();
 
 // functions to match cards
 function flipCardArray(clickTarget) {
@@ -93,7 +101,7 @@ function match() {
         openCards = [];
       }, 1000);
   }
-};
+}
 
 // functions that affect moves
 function moveCounter() {
@@ -131,7 +139,7 @@ let clockID;
 
 function startClock() {
   clockID = setInterval(() => {
-  time++
+  time++;
   const clock = document.querySelector('.clock');
   let clockMinutes = Math.floor(time/60);
   let clockSeconds = time % 60;
@@ -169,8 +177,6 @@ function modalStats() {
   console.log(starStat);
 }
 
-modalStats();
-
 function getStarScore() {
   stars = 0;
   for (star of scoreStars) {
@@ -180,7 +186,7 @@ function getStarScore() {
   }
   console.log(stars);
   return stars;
-};
+}
 
 // event listener to close modal score box
 document.querySelector('.modal-cancel').addEventListener('click', () => {
