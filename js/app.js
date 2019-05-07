@@ -14,7 +14,7 @@ let openCards = [];
 let moves = 0;
 let matchCards = 0;
 
-
+// main event listener to play game
 playingMat.addEventListener('click', function(e) {
   const clickTarget = event.target;
   if (clickTarget.classList == ('card') && openCards.length < 2) {
@@ -25,7 +25,7 @@ playingMat.addEventListener('click', function(e) {
       match();
       moveCounter();
       checkScore();
-      if (matchCards == 8) {
+      if (matchCards === 8) {
         endGame();
       }
 
@@ -33,6 +33,7 @@ playingMat.addEventListener('click', function(e) {
  }
 });
 
+//function to end game and display modal score box
 function endGame() {
   stopClock();
   modalStats();
@@ -40,14 +41,25 @@ function endGame() {
 }
 
 
-
+// functions to flip cards and shuffle deck at the start. 
 function flipCard(clickTarget) {
   if (!clickTarget.classList.contains('open', 'show', 'match'))
       clickTarget.classList.add('open', 'show');
 }
 
-function flipCardArray(clickTarget) {
-  openCards.push(clickTarget);
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 function shuffleDeck() {
@@ -60,6 +72,10 @@ function shuffleDeck() {
 
 shuffleDeck()
 
+// functions to match cards
+function flipCardArray(clickTarget) {
+  openCards.push(clickTarget);
+}
 
 function match() {
   if (openCards[0].firstElementChild.className ===
@@ -68,30 +84,37 @@ function match() {
         openCards[0].classList.add('match');
         openCards[1].classList.add('match');
         openCards = [];
+        matchCards++;
       }
   else {
     setTimeout(function() {
         openCards[0].classList.remove('open', 'show');
         openCards[1].classList.remove('open', 'show');
         openCards = [];
-        matchCards++;
       }, 1000);
   }
 };
 
+// functions that affect moves
 function moveCounter() {
   moves++;
   const movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
 }
 
+function resetMoves() {
+  moves = 0;
+  document.querySelector('.moves').innerHTML = moves;
+}
+
+// functions of score tracking
+const scoreStars = document.querySelectorAll('.stars li');
+
 function checkScore() {
   if (moves == 12 || moves == 20) {
     hideStar();
   }
 }
-
-const scoreStars = document.querySelectorAll('.stars li');
 
 function hideStar() {
   for (star of scoreStars) {
@@ -102,6 +125,7 @@ function hideStar() {
   }
 }
 
+// clock function and global variables for clock mechanics
 let time = 0;
 let clockID;
 
@@ -119,12 +143,14 @@ function startClock() {
 }, 1000);
 }
 
-// startClock();
-
 function stopClock() {
   clearInterval(clockID);
 }
 
+// event listener to handle the reset button on playing screen
+document.querySelector('.restart').addEventListener('click', reset);
+
+//functions for modal score box
 function toggleModal() {
   const modal = document.querySelector('.modal-background');
   modal.classList.toggle('hide');
@@ -156,18 +182,15 @@ function getStarScore() {
   return stars;
 };
 
+// event listener to close modal score box
 document.querySelector('.modal-cancel').addEventListener('click', () => {
   toggleModal();
 });
 
+//event listener to reset game from modal box
 document.querySelector('.modal-replay').addEventListener('click', replay);
-document.querySelector('.restart').addEventListener('click', reset);
 
-function replay() {
-  reset();
-  toggleModal();
-}
-
+// reset/replay functions -- 
 function reset() {
   resetClock();
   resetMoves();
@@ -175,15 +198,16 @@ function reset() {
   shuffleDeck();
   resetCards();
 }
+
+function replay() {
+  reset();
+  toggleModal();
+}
+
 function resetClock() {
   stopClock();
   clockOff = true;
   time = 0;
-}
-
-function resetMoves() {
-  moves = 0;
-  document.querySelector('.moves').innerHTML = moves;
 }
 
 function resetStars() {
@@ -198,17 +222,4 @@ function resetCards() {
     card.className = 'card';  
   }
 }
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
